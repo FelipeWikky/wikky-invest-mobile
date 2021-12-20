@@ -18,7 +18,6 @@ import LinkingConfiguration from './LinkingConfiguration';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import Signin from '../screens/Signin';
 import Drawer from './drawer';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Stack = createNativeStackNavigator<MainStackParams>();
 

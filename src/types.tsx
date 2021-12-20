@@ -51,6 +51,7 @@ type IRouteTitles = {
   'Drawer': string;
   'Calculate': string;
   'Signin': string;
+  'Signout': string;
   'NotFound': string;
   [x:string]: string;
 }
@@ -60,4 +61,5 @@ export const RouteTitles: IRouteTitles = {
   'Calculate': 'Calcular',
   'Signin': 'Login',
   'NotFound': 'Não encontrado',
+  'Signout': 'Sair',
 }
