@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useRef, useState, useCallback, useMemo } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 import Input from "../../components/Input";
 
@@ -21,6 +22,7 @@ import styles from "./styles";
 import PACKAGE from "../../../package.json";
 
 const Signin = () => {
+    const navigation = useNavigation();
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -33,7 +35,8 @@ const Signin = () => {
         pwdRef?.current?.blur();
         setLoading(true);
         setTimeout(() => {
-            Alert.alert('Signin', email + ' - ' + password)
+            navigation.navigate('Drawer');
+            // Alert.alert('Signin', email + ' - ' + password)
             setLoading(false);
         }, 3000);
     }, [email, password]);
