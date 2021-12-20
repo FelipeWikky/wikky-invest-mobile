@@ -7,30 +7,56 @@
 import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 
-import { RootStackParamList } from '../types';
+import { MainStackParams } from '../types';
 
-const linking: LinkingOptions<RootStackParamList> = {
+const linking: LinkingOptions<MainStackParams> = {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
-      Root: {
+      Signin: 'signin',
+      Drawer: {
         screens: {
-          TabOne: {
-            screens: {
-              TabOneScreen: 'one',
-            },
-          },
-          TabTwo: {
-            screens: {
-              TabTwoScreen: 'two',
-            },
-          },
-        },
+          Home: {
+            path: 'home',
+            exact: true,
+          }
+        }
       },
-      Modal: 'modal',
       NotFound: '*',
     },
   },
 };
 
 export default linking;
+
+
+// import { LinkingOptions } from '@react-navigation/native';
+// import * as Linking from 'expo-linking';
+
+// import { RootStackParamList } from '../types';
+
+// const linking: LinkingOptions<RootStackParamList> = {
+//   prefixes: [Linking.makeUrl('/')],
+//   config: {
+//     screens: {
+//       Signin: {
+//         screens: {
+//           TabOne: {
+//             screens: {
+//               TabOneScreen: 'one',
+//             },
+//           },
+//           TabTwo: {
+//             screens: {
+//               TabTwoScreen: 'two',
+//             },
+//           },
+//         },
+//       },
+//       Modal: 'modal',
+//       NotFound: '*',
+//     },
+//   },
+// };
+
+// export default linking;
