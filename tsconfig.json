@@ -13,6 +13,7 @@
     "moduleResolution": "Node",
     "noEmit": true,
     "resolveJsonModule": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "module": "CommonJS"
   }
 }
