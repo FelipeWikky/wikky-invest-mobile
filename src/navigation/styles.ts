@@ -15,10 +15,19 @@ export default StyleSheet.create({
         flexDirection: "row-reverse",
         alignItems: "center",
     },
-    drawerLogo: {
+    drawerHeaderLogo: {
         height: 22,
         width: 22,
+
     },
+    drawerHeaderLogoInverted: {
+        height: 22,
+        width: 22,
+        transform: [{
+            rotateX: '180deg'
+        }]
+    },
+
     drawerLabel: {
         marginHorizontal: 5,
         color: "rgba(7, 55, 99, 1)",
@@ -39,6 +48,11 @@ export default StyleSheet.create({
         height: 14,
         width: 14,
         marginRight: 5,
+    },
+    drawerContentLogoInverted: {
+        transform: [{
+            rotateX: '180deg'
+        }]
     },
     drawerUsername: {
         color: "rgba(7, 55, 99, 1)",

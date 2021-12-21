@@ -8,9 +8,9 @@ import {
 } from "@react-navigation/drawer";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Foundation } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from "react";
 
 import { MainDrawerParams, RouteTitles } from "../types";
 import styles from "./styles";
@@ -24,6 +24,8 @@ import Wallet from "../screens/Wallet";
 import Values from "../constants/Values";
 
 export default function Navigation() {
+    const [clicked, setClicked] = useState(false);
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <Drawer.Navigator
@@ -33,9 +35,9 @@ export default function Navigation() {
                     drawerType: 'slide',
                     swipeEnabled: true,
                     unmountOnBlur: true,
-                    header: drawerHeader
+                    header: props => drawerHeader(props, clicked, setClicked)
                 }}
-                drawerContent={drawerContent}
+                drawerContent={props => drawerContent(props, clicked, setClicked)}
             >
                 <Drawer.Screen name="Home" component={Home} />
                 <Drawer.Screen name="Wallet" component={Wallet} />
@@ -45,10 +47,16 @@ export default function Navigation() {
     );
 }
 
-const drawerHeader = (props: DrawerHeaderProps) => {
+const drawerHeader = (
+    props: DrawerHeaderProps,
+    clicked: boolean,
+    setClicked: React.Dispatch<React.SetStateAction<boolean>>
+) => {
     return (
         <View style={styles.drawerHeader} >
-            <Image source={Values.ICON} style={styles.drawerLogo} />
+            <TouchableOpacity onPress={() => setClicked(!clicked)}>
+                <Image source={Values.ICON} style={styles[clicked ? 'drawerHeaderLogoInverted' : 'drawerHeaderLogo']} />
+            </TouchableOpacity>
             <TouchableOpacity
                 style={styles.drawerInfo}
                 onPress={() => props.navigation.openDrawer()}
@@ -60,14 +68,20 @@ const drawerHeader = (props: DrawerHeaderProps) => {
     );
 };
 
-const drawerContent = (props: DrawerContentComponentProps) => {
+const drawerContent = (
+    props: DrawerContentComponentProps,
+    clicked: boolean,
+    setClicked: React.Dispatch<React.SetStateAction<boolean>>
+) => {
     const { navigation, state } = props;
     return (
         <DrawerContentScrollView {...props} style={{ marginTop: -20 }}>
 
             <View style={styles.drawerContentHeader}>
                 <View style={styles.drawerContentNameIcon}>
-                    <Image source={Values.ICON} style={styles.drawerContentLogo} />
+                    <TouchableOpacity onPress={() => setClicked(!clicked)}>
+                        <Image source={Values.ICON} style={[styles.drawerContentLogo, clicked && styles.drawerContentLogoInverted]} />
+                    </TouchableOpacity>
                     <Text style={styles.drawerUsername}>Olá, Felipe</Text>
                 </View>
                 <Text style={styles.drawerEmail}>({'felipewikky@gmail.com'})</Text>
