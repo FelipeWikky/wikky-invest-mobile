@@ -29,7 +29,6 @@ const StockItem = ({ wallet, onSaveWallet }: Props) => {
             style={styles.container}
             onPress={() => {
                 setVisibled(true);
-                console.log(wallet)
             }}
         >
             <WalletItemModal

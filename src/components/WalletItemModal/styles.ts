@@ -21,7 +21,8 @@ export default StyleSheet.create({
         borderBottomWidth: 0.2,
         borderColor: "#AAABBB",
         paddingBottom: 3,
-        height: '5%'
+        height: '5%',
+        alignItems: 'center'
     },
     ticker: {
         textAlign: 'center',

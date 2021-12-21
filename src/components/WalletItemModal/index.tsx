@@ -18,9 +18,11 @@ interface Props {
 const WalletItemModal = (props: Props) => {
     const { visible, onClose, wallet, onSave } = props;
 
-    const [state, setState] = useState<Wallet | undefined>(wallet);
+    const [state, setState] = useState<Wallet | undefined>({} as Wallet);
     useEffect(() => {
-        setState(wallet ?? undefined);
+        if (wallet) {
+            setState(wallet);
+        }
     }, [wallet]);
 
     const onBackPress = useCallback(() => {
@@ -28,11 +30,12 @@ const WalletItemModal = (props: Props) => {
         onClose();
     }, []);
     const onSavePress = useCallback(() => {
-        if (wallet && onSave) {
-            onSave(wallet);
+        if (state && onSave) {
+            onSave(state);
             onClose();
+            setState({} as Wallet);
         }
-    }, [onSave, wallet, onClose]);
+    }, [onSave, state, onClose]);
 
     return (
         <Modal
@@ -46,7 +49,12 @@ const WalletItemModal = (props: Props) => {
                     <View style={styles.card}>
 
                         <View style={styles.header}>
-                            <Text style={styles.ticker}>{wallet?.ticker}</Text>
+                            <TextInput
+                                value={state?.ticker}
+                                onChangeText={value => setState(prev => ({ ...prev, ticker: value }))}
+                                style={{ borderBottomWidth: 0.5, borderBottomColor: "#CCC", width: '50%', textAlign: 'center' }}
+                                placeholder="Ticker do ativo"
+                            />
                         </View>
 
                         <View style={styles.content}>
@@ -58,7 +66,7 @@ const WalletItemModal = (props: Props) => {
                             <View style={styles.information}>
                                 <Text>Quantidade: &nbsp;</Text>
                                 <NumericInput
-                                    value={String(state?.quantity) || String(wallet?.quantity) || '0'}
+                                    value={state?.quantity ? String(state.quantity) : wallet?.quantity ? String(wallet.quantity) : ''}
                                     editable={!!(onSave)}
                                     onChangeText={value => setState(prev => ({ ...prev, quantity: Number(value) }))}
                                     onDecrease={newValue => setState(prev => ({ ...prev, quantity: Number(newValue) }))}
