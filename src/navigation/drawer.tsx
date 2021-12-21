@@ -62,7 +62,6 @@ const drawerHeader = (props: DrawerHeaderProps) => {
 
 const drawerContent = (props: DrawerContentComponentProps) => {
     const { navigation, state } = props;
-    console.log(props)
     return (
         <DrawerContentScrollView {...props} style={{ marginTop: -20 }}>
 
@@ -85,7 +84,7 @@ const drawerContent = (props: DrawerContentComponentProps) => {
             ))}
             <DrawerItem
                 label={"Sair"}
-                onPress={() => console.log("saindo")}
+                onPress={() => console.warn("saindo")}
                 icon={(props) => drawerIcon(props, 'Signout')}
             />
         </DrawerContentScrollView>
