@@ -19,8 +19,9 @@ const Drawer = createDrawerNavigator<MainDrawerParams>();
 
 import Home from "../screens/Home";
 import Calculate from "../screens/Calculate";
-import Values from "../constants/Values";
+import Wallet from "../screens/Wallet";
 
+import Values from "../constants/Values";
 
 export default function Navigation() {
     return (
@@ -37,6 +38,7 @@ export default function Navigation() {
                 drawerContent={drawerContent}
             >
                 <Drawer.Screen name="Home" component={Home} />
+                <Drawer.Screen name="Wallet" component={Wallet} />
                 <Drawer.Screen name="Calculate" component={Calculate} />
             </Drawer.Navigator>
         </SafeAreaView>
@@ -94,6 +96,7 @@ const drawerIcon = (props: DrawerIconProps, routeName: keyof typeof RouteTitles)
     const { color } = props;
     const routeIcon: any = {
         'Home': 'home',
+        'Wallet': 'account-balance-wallet',
         'Calculate': 'calculate',
         'Signin': 'login',
         'Signout': 'logout',

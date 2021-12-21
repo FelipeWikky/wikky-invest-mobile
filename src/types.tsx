@@ -43,12 +43,14 @@ export type MainStackParams = {
 
 export type MainDrawerParams = {
   Home: undefined;
+  Wallet: undefined;
   Calculate: undefined;
 }
 
 type IRouteTitles = {
   'Home': string;
   'Drawer': string;
+  'Wallet': string;
   'Calculate': string;
   'Signin': string;
   'Signout': string;
@@ -58,6 +60,7 @@ type IRouteTitles = {
 export const RouteTitles: IRouteTitles = {
   'Home': 'Início',
   'Drawer': 'Menu',
+  'Wallet': 'Carteira',
   'Calculate': 'Calcular',
   'Signin': 'Login',
   'NotFound': 'Não encontrado',
