@@ -25,7 +25,7 @@ const NumericInput = ({ value, onIncrease, onDecrease, ...props }: Props) => {
                 {...props}
                 keyboardType="numeric"
                 style={styles.inputQty}
-                value={String(value) ?? ''}
+                value={value || '0'}
             />
             <TouchableOpacity
                 style={[styles.qtyButton, styles.qtyPlus]}
