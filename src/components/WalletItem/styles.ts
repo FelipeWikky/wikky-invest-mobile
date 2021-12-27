@@ -38,5 +38,20 @@ export default StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    calculateContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    calculateInput: {
+        width: 50,
+        borderBottomWidth: 0.8,
+        borderColor: 'rgba(7, 55, 99, 1)',
+        marginRight: 5,
+        color: 'rgba(7, 55, 99, 1)'
+    },
+    calculateTotal: {
+        fontSize: 14,
+        color: 'rgba(7, 55, 99, 1)'
     }
 })
