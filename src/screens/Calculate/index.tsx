@@ -14,7 +14,7 @@ const Calculate = () => {
         <View style={styles.header}>
             <Text style={styles.headerTitle}>Seus ativos</Text>
             <View style={styles.headerIcons}>
-                <Text>Dividend total: {total.toFixed(2)}</Text>
+                <Text style={styles.headerTotal}>Dividendo total: {total.toFixed(2)}</Text>
             </View>
         </View>
     ), [total]);

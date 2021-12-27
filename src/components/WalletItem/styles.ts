@@ -52,6 +52,8 @@ export default StyleSheet.create({
     },
     calculateTotal: {
         fontSize: 14,
-        color: 'rgba(7, 55, 99, 1)'
+        color: 'rgba(7, 55, 99, 1)',
+        minWidth: 50,
+        textAlign: 'right'
     }
 })

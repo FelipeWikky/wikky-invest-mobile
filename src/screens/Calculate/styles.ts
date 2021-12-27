@@ -21,6 +21,10 @@ export default StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
+    headerTotal: {
+        color: 'rgba(7, 55, 99, 1)',
+        fontWeight: '500'
+    },
 
     content: {
         height: '100%',
