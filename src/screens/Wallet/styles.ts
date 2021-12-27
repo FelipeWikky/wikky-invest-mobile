@@ -9,8 +9,10 @@ export default StyleSheet.create({
     },
     header: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
         borderBottomWidth: 0.2,
+        paddingVertical: 5,
     },
     headerTitle: {
         fontSize: 18,

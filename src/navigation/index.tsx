@@ -9,6 +9,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 
+import { WalletProvider } from '../contexts/WalletContext';
+
 import {
   MainStackParams
 } from '../types';
@@ -26,7 +28,9 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
+      <WalletProvider>
+        <RootNavigator />
+      </WalletProvider>
     </NavigationContainer>
   );
 }
