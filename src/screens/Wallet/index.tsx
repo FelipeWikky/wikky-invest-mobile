@@ -1,5 +1,5 @@
 import { Text, View, FlatList, ActivityIndicator } from "react-native";
-import { useCallback, useState, useContext, useEffect } from "react";
+import { useCallback, useState } from "react";
 
 import styles from "./styles";
 
@@ -8,28 +8,32 @@ import { Wallet } from "../../models/Wallet";
 import WalletItem from "../../components/WalletItem";
 import WalletItemModal from "../../components/WalletItemModal";
 import PlusIcon from "../../components/PlusIcon";
-import WalletContext from "../../contexts/WalletContext";
+import Icon from "../../components/Icon";
 
 const WalletComponent = () => {
 
-    const { wallets, saveWalletItem, deleteWalletItem, getWallets, loadingWallets } = useWallet();
+    const { wallets, saveWalletItem, deleteWalletItem, loadingWallets, cleanWallet } = useWallet();
     const [selected, setSelected] = useState<Wallet>();
     const [isModalVisibled, setIsModalVisibled] = useState(false);
 
     const onSaveWalletItem = useCallback(async (wallet: Wallet) => {
         await saveWalletItem(wallet);
         setSelected(undefined);
-    }, []);
+    }, [saveWalletItem]);
 
     const onDeleteWalletItem = useCallback(async (wallet: Wallet) => {
         await deleteWalletItem(wallet);
         setSelected(undefined);
-    }, []);
+    }, [deleteWalletItem]);
 
     const onSelectWalletItem = useCallback(async (wallet: Wallet) => {
         setSelected(wallet);
         setIsModalVisibled(true);
     }, []);
+
+    const onCleanWallet = useCallback(async () => {
+        await cleanWallet();
+    }, [cleanWallet]);
 
     const renderLoading = useCallback(() => {
         if (loadingWallets) {
@@ -41,13 +45,26 @@ const WalletComponent = () => {
         return null;
     }, [loadingWallets]);
 
+    const renderHeader = useCallback(() => (
+        <View style={styles.header}>
+            <Text style={styles.headerTitle}>Sua carteira de ativos</Text>
+            <View style={styles.headerIcons}>
+                {wallets.length > 0 && (
+                    <Icon
+                        name="block" size={23}
+                        style={{ marginRight: 5 }} color="red" background="none"
+                        onClick={() => onCleanWallet()}
+                    />
+                )}
+                <PlusIcon onClick={() => setIsModalVisibled(true)} size={22} />
+            </View>
+        </View>
+    ), [])
+
     return (
         <View style={styles.container}>
             <WalletItemModal visible={isModalVisibled} onClose={() => setIsModalVisibled(false)} onSave={onSaveWalletItem} wallet={selected} />
-            <View style={styles.header}>
-                <Text style={styles.headerTitle}>Sua carteira de ativos</Text>
-                <PlusIcon onClick={() => setIsModalVisibled(true)} size={22} />
-            </View>
+            {renderHeader()}
             {renderLoading()}
             <View style={styles.content}>
                 <FlatList

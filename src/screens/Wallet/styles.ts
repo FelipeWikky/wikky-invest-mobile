@@ -18,6 +18,10 @@ export default StyleSheet.create({
         fontSize: 18,
         fontWeight: '500',
     },
+    headerIcons: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
 
     content: {
         height: '100%',
