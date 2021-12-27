@@ -67,7 +67,7 @@ const WalletComponent = () => {
                 <PlusIcon onClick={() => setIsSelectModal(true)} size={22} />
             </View>
         </View>
-    ), [])
+    ), [wallets]);
 
     return (
         <View style={styles.container}>

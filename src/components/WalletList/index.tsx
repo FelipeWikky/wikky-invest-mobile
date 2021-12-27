@@ -9,10 +9,12 @@ interface Props<T> {
     onSelectWallet?: (wallet: T) => void;
     onDeleteWallet?: (wallet: T) => Promise<void>;
     onCalculateWallet?: (wallet: T) => void;
+    isCalculate?: boolean;
+    calculateCallback?: (total: string | number, totalOld: string | number) => void;
 }
 
 const WalletList = (props: Props<Wallet>) => {
-    const { data, onSelectWallet, onDeleteWallet, onCalculateWallet } = props;
+    const { data, onSelectWallet, onDeleteWallet, onCalculateWallet, isCalculate, calculateCallback } = props;
     return (
         <FlatList
             data={data}
@@ -23,6 +25,8 @@ const WalletList = (props: Props<Wallet>) => {
                         onSelectItem={onSelectWallet}
                         onDeleteItem={onDeleteWallet}
                         onCalculateItem={onCalculateWallet}
+                        isCalculate={isCalculate}
+                        calculateCallback={calculateCallback}
                     />
                 </View>
             }
