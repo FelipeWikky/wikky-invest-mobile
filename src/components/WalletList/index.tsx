@@ -7,11 +7,12 @@ import { Wallet } from '../../models/Wallet';
 interface Props<T> {
     data: T[];
     onSelectWallet?: (wallet: T) => void;
-    onDeleteWallet?: (wallet: T) => Promise<void>
+    onDeleteWallet?: (wallet: T) => Promise<void>;
+    onCalculateWallet?: (wallet: T) => void;
 }
 
 const WalletList = (props: Props<Wallet>) => {
-    const { data, onSelectWallet, onDeleteWallet } = props;
+    const { data, onSelectWallet, onDeleteWallet, onCalculateWallet } = props;
     return (
         <FlatList
             data={data}
@@ -21,6 +22,7 @@ const WalletList = (props: Props<Wallet>) => {
                         wallet={item}
                         onSelectItem={onSelectWallet}
                         onDeleteItem={onDeleteWallet}
+                        onCalculateItem={onCalculateWallet}
                     />
                 </View>
             }

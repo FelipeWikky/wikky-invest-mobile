@@ -6,15 +6,20 @@ import styles from "./styles";
 import useWallet from "../../hooks/useWallet";
 import { Wallet } from "../../models/Wallet";
 import WalletItemModal from "../../components/WalletItemModal";
+import WalletCalculateModal, { CalculateStockModalHandles } from "../../components/CalculateStockModal";
 import PlusIcon from "../../components/PlusIcon";
 import Icon from "../../components/Icon";
 import WalletList from "../../components/WalletList";
+import { useRef } from "react";
 
 const WalletComponent = () => {
 
+
     const { wallets, saveWalletItem, deleteWalletItem, loadingWallets, cleanWallet } = useWallet();
     const [selected, setSelected] = useState<Wallet>();
-    const [isModalVisibled, setIsModalVisibled] = useState(false);
+    const [isSelectModal, setIsSelectModal] = useState(false);
+
+    const calculateModalRef = useRef<CalculateStockModalHandles>(null);
 
     const onSaveWalletItem = useCallback(async (wallet: Wallet) => {
         await saveWalletItem(wallet);
@@ -28,7 +33,10 @@ const WalletComponent = () => {
 
     const onSelectWalletItem = useCallback(async (wallet: Wallet) => {
         setSelected(wallet);
-        setIsModalVisibled(true);
+        setIsSelectModal(true);
+    }, []);
+    const onCalculateWalletItem = useCallback(async (wallet: Wallet) => {
+        calculateModalRef.current?.selectWallet(wallet);
     }, []);
 
     const onCleanWallet = useCallback(async () => {
@@ -56,14 +64,22 @@ const WalletComponent = () => {
                         onClick={() => onCleanWallet()}
                     />
                 )}
-                <PlusIcon onClick={() => setIsModalVisibled(true)} size={22} />
+                <PlusIcon onClick={() => setIsSelectModal(true)} size={22} />
             </View>
         </View>
     ), [])
 
     return (
         <View style={styles.container}>
-            <WalletItemModal visible={isModalVisibled} onClose={() => setIsModalVisibled(false)} onSave={onSaveWalletItem} wallet={selected} />
+            <WalletItemModal
+                visible={isSelectModal}
+                onClose={() => setIsSelectModal(false)}
+                onSave={onSaveWalletItem}
+                wallet={selected}
+            />
+
+            <WalletCalculateModal ref={calculateModalRef} />
+
             {renderHeader()}
             {renderLoading()}
             <View style={styles.content}>
@@ -71,6 +87,7 @@ const WalletComponent = () => {
                     data={wallets}
                     onSelectWallet={onSelectWalletItem}
                     onDeleteWallet={onDeleteWalletItem}
+                    onCalculateWallet={onCalculateWalletItem}
                 />
             </View>
         </View>

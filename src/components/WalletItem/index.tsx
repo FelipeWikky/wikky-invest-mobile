@@ -11,9 +11,10 @@ interface Props {
     wallet: Wallet;
     onSelectItem?: (wallet: Wallet) => void;
     onDeleteItem?: (wallet: Wallet) => Promise<void>;
+    onCalculateItem?: (wallet: Wallet) => void;
 }
 
-const StockItem = ({ wallet, onSelectItem, onDeleteItem }: Props) => {
+const StockItem = ({ wallet, onSelectItem, onDeleteItem, onCalculateItem }: Props) => {
 
     const getTypeFormatted = useCallback((type?: WalletType) => {
         switch (type) {
@@ -54,12 +55,14 @@ const StockItem = ({ wallet, onSelectItem, onDeleteItem }: Props) => {
             </TouchableOpacity>
 
             <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                    style={styles.iconContainer}
-                    onPress={() => onSelectWalltetItem(wallet)}
-                >
-                    <Icon name="calculate" color="rgba(7, 55, 99, 1)" size={24}/>
-                </TouchableOpacity>
+                {onCalculateItem && (
+                    <TouchableOpacity
+                        style={styles.iconContainer}
+                        onPress={() => onCalculateItem(wallet)}
+                    >
+                        <Icon name="calculate" color="rgba(7, 55, 99, 1)" size={24} />
+                    </TouchableOpacity>
+                )}
 
                 {onDeleteItem && (
                     <TouchableOpacity
