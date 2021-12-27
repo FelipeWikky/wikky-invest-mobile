@@ -1,19 +1,19 @@
 import { Text, View, TouchableOpacity } from "react-native";
-import { MaterialIcons } from '@expo/vector-icons';
 import { useCallback, useState } from "react";
 
 import { Wallet, WalletType } from "../../models/Wallet";
-import WalletItemModal from "../WalletItemModal";
+import PlusIcon from "../PlusIcon";
+import TrashIcon from "../TrashIcon";
 
 import styles from "./styles";
 
 interface Props {
     wallet: Wallet;
-    onSaveWallet?: (wallet: Wallet) => void;
+    onSelectItem?: (wallet: Wallet) => void;
+    onDeleteItem?: (wallet: Wallet) => Promise<void>;
 }
 
-const StockItem = ({ wallet, onSaveWallet }: Props) => {
-    const [visibled, setVisibled] = useState(false);
+const StockItem = ({ wallet, onSelectItem, onDeleteItem }: Props) => {
 
     const getTypeFormatted = useCallback((type?: WalletType) => {
         switch (type) {
@@ -24,20 +24,21 @@ const StockItem = ({ wallet, onSaveWallet }: Props) => {
         }
     }, []);
 
+    const onSelectWalltetItem = useCallback((item: Wallet) => {
+        if (onSelectItem) {
+            onSelectItem(item)
+        }
+    }, [onSelectItem]);
+
+    const onDeleteWalletItem = useCallback(async (item: Wallet) => {
+        if (onDeleteItem) {
+            await onDeleteItem(item);
+        }
+    }, [onDeleteItem]);
+
     return (
-        <TouchableOpacity
-            style={styles.container}
-            onPress={() => {
-                setVisibled(true);
-            }}
-        >
-            <WalletItemModal
-                visible={visibled}
-                onClose={() => setVisibled(false)}
-                onSave={onSaveWallet}
-                wallet={wallet}
-            />
-            <View style={styles.content}>
+        <View style={styles.container} >
+            <TouchableOpacity style={styles.content} onPress={() => onSelectWalltetItem(wallet)}>
                 <View style={styles.information}>
                     <Text style={styles.title}>Ticker</Text>
                     <Text style={styles.item}>{wallet.ticker}</Text>
@@ -50,17 +51,28 @@ const StockItem = ({ wallet, onSaveWallet }: Props) => {
                     <Text style={styles.title}>Tipo</Text>
                     <Text style={styles.item}>{getTypeFormatted(wallet.type)}</Text>
                 </View>
-            </View>
-
-            <TouchableOpacity
-                style={styles.iconContainer}
-                onPress={() => console.log("open modal plus")}
-            >
-                <MaterialIcons name="add" size={26} color="#FFF" />
             </TouchableOpacity>
 
+            <View style={styles.buttonContainer}>
+                {/* <TouchableOpacity
+                    style={styles.iconContainer}
+                    onPress={() => onSelectWalltetItem(wallet)}
+                >
+                    <PlusIcon size={20} onClick={() => setVisibled(true)} />
+                </TouchableOpacity> */}
 
-        </TouchableOpacity>
+                {onDeleteItem && (
+                    <TouchableOpacity
+                        style={styles.iconContainer}
+                        onPress={() => onDeleteWalletItem(wallet)}
+                    >
+                        <TrashIcon size={22} />
+                    </TouchableOpacity>
+                )}
+            </View>
+
+
+        </View>
     );
 };
 

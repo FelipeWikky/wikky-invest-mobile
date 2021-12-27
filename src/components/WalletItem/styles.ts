@@ -14,6 +14,7 @@ export default StyleSheet.create({
     },
     content: {
         flexDirection: "row",
+        flex: 1
     },
     information: {
         marginRight: 10
@@ -28,7 +29,14 @@ export default StyleSheet.create({
         textAlign: 'center'
     },
     iconContainer: {
-        backgroundColor: 'green',
         borderRadius: 50,
+        marginLeft: 2,
+        // padding: 5,
+        borderWidth: 0.5,
+        borderColor: 'rgba(0, 0, 0, 0.01)',
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     }
 })
