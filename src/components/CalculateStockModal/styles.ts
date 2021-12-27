@@ -2,27 +2,18 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     modal: {
-        flex: 1,
-        height: '100%',
         width: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
     },
     card: {
-        backgroundColor: '#FFF',
         width: '100%',
-        height: '80%',
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingHorizontal: 10,
     },
     header: {
         borderBottomWidth: 0.2,
         borderColor: "#AAABBB",
         paddingVertical: 5,
         marginBottom: 5,
-        height: '15%',
     },
     titleContainer: {
         alignItems: 'center',
@@ -52,7 +43,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '100%',
-        marginTop: '10%',
+        marginTop: '5%',
     },
     information: {
         flexDirection: 'column',

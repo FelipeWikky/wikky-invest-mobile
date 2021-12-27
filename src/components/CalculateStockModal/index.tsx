@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState, useRef, ForwardRefRenderFunction, forwardRef, useImperativeHandle } from "react";
-import { Modal, View, Text, TouchableOpacity, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, TouchableOpacity, TextInput, KeyboardAvoidingView, Dimensions } from "react-native";
+import {
+    Modalize
+} from "react-native-modalize";
 
 import { Wallet } from "../../models/Wallet";
 import Icon from "../Icon";
@@ -16,12 +18,10 @@ export interface CalculateStockModalHandles {
 const CalculateStockModal: ForwardRefRenderFunction<CalculateStockModalHandles> = (_, ref) => {
     const [wallet, setWallet] = useState<Wallet>({} as Wallet);
 
-    const [modalVisible, setModalVisible] = useState(false);
-
     const selectWallet = useCallback((item: Wallet) => {
         setWallet(item);
-        setModalVisible(true);
-    }, [setWallet, setModalVisible]);
+        modalRef.current?.open();
+    }, [setWallet]);
 
     useImperativeHandle(ref, () => {
         return {
@@ -36,6 +36,8 @@ const CalculateStockModal: ForwardRefRenderFunction<CalculateStockModalHandles> 
     const qtyRef = useRef<TextInput>(null);
     const dividendRef = useRef<TextInput>(null);
 
+    const modalRef = useRef<Modalize>(null);
+
     useEffect(() => {
         if (wallet) {
             setState(wallet);
@@ -46,7 +48,6 @@ const CalculateStockModal: ForwardRefRenderFunction<CalculateStockModalHandles> 
         setTotal(0);
         setDividend('0');
         setState(undefined);
-        setModalVisible(false);
     }, []);
 
     const onBlurInputs = useCallback(() => {
@@ -74,16 +75,6 @@ const CalculateStockModal: ForwardRefRenderFunction<CalculateStockModalHandles> 
         </View>
     ), [wallet]);
 
-    const renderFooter = useCallback(() => (
-        <View style={styles.footer}>
-            <TouchableOpacity style={styles.button} onPress={onBackPress}>
-                <View style={styles.buttonText}>
-                    <Text style={styles.text}>Voltar</Text>
-                </View>
-            </TouchableOpacity>
-        </View>
-    ), [onBackPress]);
-
     const renderTextCalculated = useCallback((value: string | number) => {
         if (value) {
             return `Valor a receber: ${Number(value).toFixed(2)}`;
@@ -92,70 +83,61 @@ const CalculateStockModal: ForwardRefRenderFunction<CalculateStockModalHandles> 
     }, []);
 
     return (
-        <Modal
-            visible={modalVisible}
-            onRequestClose={() => onBackPress()}
-            transparent={true}
-            animationType="slide"
+        <Modalize
+            ref={modalRef}
+            snapPoint={Dimensions.get('window').height * 0.5}
+            modalHeight={Dimensions.get('window').height * 0.8}
+            onClosed={() => onBackPress()}
         >
             <KeyboardAvoidingView style={{ flex: 1 }}>
-                <SafeAreaView style={{ flex: 1 }}>
-                    <TouchableWithoutFeedback onPress={onBackPress}>
-                        <View style={styles.modal}>
-                            <TouchableWithoutFeedback onPress={() => { }}>
-                                <View style={styles.card}>
-                                    {renderHeader()}
+                <View style={styles.modal}>
+                    <View style={styles.card}>
+                        {renderHeader()}
 
-                                    <View style={styles.content}>
-                                        <View style={styles.inputContainer}>
-                                            <View style={styles.information}>
-                                                <Text style={styles.label}>Quantidade: </Text>
-                                                <NumericInput
-                                                    value={state?.quantity ? String(state.quantity) : wallet?.quantity ? String(wallet.quantity) : ''}
-                                                    onChangeText={value => setState(prev => ({ ...prev, quantity: Number(value) }))}
-                                                    onDecrease={newValue => setState(prev => ({ ...prev, quantity: Number(newValue) }))}
-                                                    onIncrease={newValue => setState(prev => ({ ...prev, quantity: Number(newValue) }))}
-                                                    editable={true}
-                                                    innerRef={qtyRef}
-                                                    ref={qtyRef}
-                                                />
-                                            </View>
-                                            <View style={styles.information}>
-                                                <Text style={styles.label}>Dividend: </Text>
-                                                <NumericInput
-                                                    value={String(dividend) || ''}
-                                                    steps={0.1}
-                                                    editable={true}
-                                                    onChangeText={value => setDividend(String(value))}
-                                                    onDecrease={newValue => setDividend(String(Number(newValue).toFixed(2)))}
-                                                    onIncrease={newValue => setDividend(String(Number(newValue).toFixed(2)))}
-                                                    innerRef={dividendRef}
-                                                    ref={dividendRef}
-                                                />
-                                            </View>
-                                        </View>
-
-                                        <TouchableOpacity
-                                            style={styles.calculateContainer}
-                                            onPress={onCalculatePress}
-                                        >
-                                            <Text style={styles.calculateButtonText}>Calcular</Text>
-                                        </TouchableOpacity>
-
-                                        <Text style={styles.calculateText}>
-                                            {renderTextCalculated(total)}
-                                        </Text>
-                                    </View>
-
-                                    {renderFooter()}
+                        <View style={styles.content}>
+                            <View style={styles.inputContainer}>
+                                <View style={styles.information}>
+                                    <Text style={styles.label}>Quantidade: </Text>
+                                    <NumericInput
+                                        value={state?.quantity ? String(state.quantity) : wallet?.quantity ? String(wallet.quantity) : ''}
+                                        onChangeText={value => setState(prev => ({ ...prev, quantity: Number(value) }))}
+                                        onDecrease={newValue => setState(prev => ({ ...prev, quantity: Number(newValue) }))}
+                                        onIncrease={newValue => setState(prev => ({ ...prev, quantity: Number(newValue) }))}
+                                        editable={true}
+                                        innerRef={qtyRef}
+                                        ref={qtyRef}
+                                    />
                                 </View>
+                                <View style={styles.information}>
+                                    <Text style={styles.label}>Dividend: </Text>
+                                    <NumericInput
+                                        value={String(dividend) || ''}
+                                        steps={0.1}
+                                        editable={true}
+                                        onChangeText={value => setDividend(String(value))}
+                                        onDecrease={newValue => setDividend(String(Number(newValue).toFixed(2)))}
+                                        onIncrease={newValue => setDividend(String(Number(newValue).toFixed(2)))}
+                                        innerRef={dividendRef}
+                                        ref={dividendRef}
+                                    />
+                                </View>
+                            </View>
 
-                            </TouchableWithoutFeedback>
+                            <TouchableOpacity
+                                style={styles.calculateContainer}
+                                onPress={onCalculatePress}
+                            >
+                                <Text style={styles.calculateButtonText}>Calcular</Text>
+                            </TouchableOpacity>
+
+                            <Text style={styles.calculateText}>
+                                {renderTextCalculated(total)}
+                            </Text>
                         </View>
-                    </TouchableWithoutFeedback>
-                </SafeAreaView>
+                    </View>
+                </View>
             </KeyboardAvoidingView>
-        </Modal >
+        </Modalize >
     );
 };
 
