@@ -1,20 +1,23 @@
 import { View, TouchableOpacity, TextInput, Text, TextInputProps } from "react-native";
+import {ForwardRefRenderFunction, forwardRef} from "react";
 
 import styles from "./styles";
 
 interface Props extends TextInputProps {
     onIncrease: (value: string) => void;
     onDecrease: (value: string) => void;
+    steps?: number;
+    innerRef?: any;
 }
 
-const NumericInput = ({ value, onIncrease, onDecrease, ...props }: Props) => {
+const NumericInput: ForwardRefRenderFunction<TextInput, Props> = ({ value, onIncrease, onDecrease, steps = 1,innerRef, ...props }, ref) => {
     const { editable } = props;
 
     return (
         <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity
                 style={[styles.qtyButton, styles.qtyLow]}
-                onPress={() => onDecrease(String(Number(value) - 1))}
+                onPress={() => onDecrease(String(Number(value) - steps))}
                 disabled={!(editable)}
             >
                 <Text style={styles.qtyText}>
@@ -23,13 +26,14 @@ const NumericInput = ({ value, onIncrease, onDecrease, ...props }: Props) => {
             </TouchableOpacity>
             <TextInput
                 {...props}
+                ref={ref}
                 keyboardType="numeric"
                 style={styles.inputQty}
-                value={value || '0'}
+                value={value ?? ''}
             />
             <TouchableOpacity
                 style={[styles.qtyButton, styles.qtyPlus]}
-                onPress={() => onIncrease(String(Number(value) + 1))}
+                onPress={() => onIncrease(String(Number(value) + steps))}
                 disabled={!(editable)}
             >
                 <Text style={styles.qtyText}>
@@ -40,4 +44,4 @@ const NumericInput = ({ value, onIncrease, onDecrease, ...props }: Props) => {
     );
 };
 
-export default NumericInput;
+export default forwardRef(NumericInput);
