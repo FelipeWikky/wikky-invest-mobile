@@ -18,6 +18,7 @@ const ICON_NAMES = {
     'add': 'MaterialIcons',
     'trash': 'FontAwesome',
     'block': 'MaterialIcons',
+    'calculate': 'MaterialIcons'
 }
 /**
  * use this component to render a icon standardized
@@ -34,6 +35,8 @@ const Icon = (props: Props) => {
                 return <FontAwesome style={style} name="trash-o" size={size} color={color} />;
             case 'block':
                 return <MaterialIcons style={style} name="block" size={size} color={color} />;
+            case 'calculate':
+                return <MaterialIcons style={style} name="calculate" size={size} color={color} />;
         }
     }, [props]);
 

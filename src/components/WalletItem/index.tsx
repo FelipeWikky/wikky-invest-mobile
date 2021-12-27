@@ -1,11 +1,11 @@
 import { Text, View, TouchableOpacity } from "react-native";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 import { Wallet, WalletType } from "../../models/Wallet";
-import PlusIcon from "../PlusIcon";
 import TrashIcon from "../TrashIcon";
 
 import styles from "./styles";
+import Icon from "../Icon";
 
 interface Props {
     wallet: Wallet;
@@ -54,12 +54,12 @@ const StockItem = ({ wallet, onSelectItem, onDeleteItem }: Props) => {
             </TouchableOpacity>
 
             <View style={styles.buttonContainer}>
-                {/* <TouchableOpacity
+                <TouchableOpacity
                     style={styles.iconContainer}
                     onPress={() => onSelectWalltetItem(wallet)}
                 >
-                    <PlusIcon size={20} onClick={() => setVisibled(true)} />
-                </TouchableOpacity> */}
+                    <Icon name="calculate" color="rgba(7, 55, 99, 1)" size={24}/>
+                </TouchableOpacity>
 
                 {onDeleteItem && (
                     <TouchableOpacity

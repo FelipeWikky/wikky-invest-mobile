@@ -1,14 +1,14 @@
-import { Text, View, FlatList, ActivityIndicator } from "react-native";
+import { Text, View, ActivityIndicator } from "react-native";
 import { useCallback, useState } from "react";
 
 import styles from "./styles";
 
 import useWallet from "../../hooks/useWallet";
 import { Wallet } from "../../models/Wallet";
-import WalletItem from "../../components/WalletItem";
 import WalletItemModal from "../../components/WalletItemModal";
 import PlusIcon from "../../components/PlusIcon";
 import Icon from "../../components/Icon";
+import WalletList from "../../components/WalletList";
 
 const WalletComponent = () => {
 
@@ -67,20 +67,10 @@ const WalletComponent = () => {
             {renderHeader()}
             {renderLoading()}
             <View style={styles.content}>
-                <FlatList
+                <WalletList
                     data={wallets}
-                    renderItem={
-                        ({ item: wallet }) => <View style={styles.flatListItem}>
-                            <WalletItem
-                                wallet={wallet}
-                                onSelectItem={onSelectWalletItem}
-                                onDeleteItem={onDeleteWalletItem}
-                            />
-                        </View>
-                    }
-                    keyExtractor={item => String(item.id)}
-                    contentContainerStyle={{ paddingBottom: 20 }}
-                    showsVerticalScrollIndicator={false}
+                    onSelectWallet={onSelectWalletItem}
+                    onDeleteWallet={onDeleteWalletItem}
                 />
             </View>
         </View>
